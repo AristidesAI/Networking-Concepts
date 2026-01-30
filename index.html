@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Interview Master</title>
+    <title>Network & VMware Interview Master</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
+            --primary: #4f46e5; /* Indigo */
+            --primary-dark: #3730a3;
             --secondary: #64748b;
-            --bg: #f8fafc;
+            --bg: #f1f5f9;
             --card-bg: #ffffff;
             --text: #1e293b;
             --success: #22c55e;
             --error: #ef4444;
             --border: #e2e8f0;
+            --vmware: #f59e0b; /* Orange for VMware tag */
         }
 
         body {
@@ -63,12 +64,12 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .tab-btn:hover { background: #f1f5f9; }
+        .tab-btn:hover { background: #f8fafc; transform: translateY(-1px); }
         .tab-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
         }
 
         /* Views */
@@ -93,14 +94,30 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             border-left: 4px solid var(--primary);
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .qa-card:hover { transform: translateX(5px); }
-        .qa-q { font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; }
+        /* VMware specific styling */
+        .qa-card[data-cat="Virtualization & VMware"] { border-left-color: var(--vmware); }
+
+        .qa-card:hover { transform: translateX(5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .qa-q { font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; }
         .qa-a { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border); display: none; color: #475569; }
         .qa-card.open .qa-a { display: block; }
-        .tag { font-size: 0.75rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
+        
+        .tag { 
+            font-size: 0.75rem; 
+            background: #e0e7ff; 
+            color: var(--primary); 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            margin-right: 10px; 
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .tag.vmware { background: #ffedd5; color: #c2410c; } /* Orange for VMware */
 
         /* Quiz Styles */
         .quiz-container {
@@ -139,7 +156,7 @@
             position: relative;
         }
 
-        .option-btn:hover:not(.disabled) { border-color: var(--primary); background: #eff6ff; }
+        .option-btn:hover:not(.disabled) { border-color: var(--primary); background: #f8fafc; }
         
         .option-btn.correct { background: #dcfce7; border-color: var(--success); color: #14532d; }
         .option-btn.wrong { background: #fee2e2; border-color: var(--error); color: #7f1d1d; opacity: 0.7; }
@@ -197,7 +214,7 @@
 <div class="container">
     <header>
         <h1>Network Interview Master</h1>
-        <p class="subtitle">Study. Quiz. Compete.</p>
+        <p class="subtitle">Includes: Virtualization, VRFs, VMware & General Networking</p>
     </header>
 
     <div class="tabs">
@@ -208,12 +225,13 @@
 
     <div id="study" class="view-section active">
         <div class="study-controls">
-            <select id="categoryFilter" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+            <select id="categoryFilter" style="padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size:1rem;">
                 <option value="all">All Concepts</option>
+                <option value="Virtualization & VMware">☁️ VMware & Virtualization (New)</option>
                 <option value="High Priority">🔥 High Priority</option>
                 <option value="Ports">🔌 Ports & Protocols</option>
                 <option value="Networking Basics">📚 Basics</option>
-                <option value="Advanced">🚀 Advanced</option>
+                <option value="Advanced">🚀 Advanced Routing</option>
             </select>
         </div>
         <div id="studyList">
@@ -223,7 +241,7 @@
     <div id="quiz" class="view-section">
         <div id="quizStart" style="text-align: center;">
             <h2>Test Your Knowledge</h2>
-            <p>10 Random Questions. 4 Choices. How high can you score?</p>
+            <p>15 Random Questions drawn from the entire database (Networking + VMware).</p>
             <button class="btn-next" style="display: inline-block;" onclick="startQuiz()">Start Quiz</button>
         </div>
 
@@ -272,10 +290,71 @@
 
 <script>
     // --- DATA ---
-    // Added 'distractors' for better quiz generation, or we can randomize from other answers.
-    // For specific numeric answers (like ports), I hardcoded distractors in logic or data.
+    // Expanded with Virtualization and VMware concepts
     const db = [
-        // HIGH PRIORITY
+        // --- VIRTUALIZATION & VMWARE (NEW) ---
+        {
+            cat: "Virtualization & VMware",
+            q: "What is a VRF (Virtual Routing and Forwarding)?",
+            a: "It allows a single physical router to host multiple, isolated routing tables. It is like a 'VLAN for Layer 3', allowing overlapping IP addresses on the same router.",
+            opts: ["Virtual Routing Table (L3 Segmentation)", "Virtual Switch (L2 Segmentation)", "A type of Firewall Rule", "VMware Recovery File"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "What is a vSwitch (Standard Switch)?",
+            a: "A software-based switch residing on a single ESXi host. It connects VMs to physical NICs (uplinks) and to each other locally.",
+            opts: ["A software switch on one host", "A physical Cisco switch", "A switch spanning multiple hosts", "A routing protocol"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "What is a vDS (Distributed Switch)?",
+            a: "A virtual switch that spans multiple ESXi hosts, managed centrally from vCenter. It provides consistent configuration across the cluster.",
+            opts: ["A switch spanning multiple hosts", "A switch on a single host", "A physical router", "A storage protocol"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "What is a Port Group?",
+            a: "A template of configuration policies (VLAN IDs, traffic shaping, security) applied to a group of virtual ports. VMs connect to Port Groups.",
+            opts: ["Configuration template (VLANs/Policies)", "A group of physical cables", "A collection of Hard Drives", "A type of CPU core"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "What is a VMkernel Port (vmk)?",
+            a: "A specialized virtual interface used by the ESXi host for system traffic, such as vMotion, iSCSI storage, NFS, and Management.",
+            opts: ["Interface for Host Traffic (vMotion/iSCSI)", "Interface for VM data traffic", "A physical USB port", "The BIOS of the VM"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "What is a vmnic?",
+            a: "The physical network adapter (uplink) on the ESXi host server.",
+            opts: ["Physical Uplink on Host", "Virtual Adapter inside VM", "The vCenter Server", "A Virtual Router"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "Difference between VST, EST, and VGT?",
+            a: "Modes of VLAN Tagging: VST (Virtual Switch Tagging) happens at vSwitch. EST (External Switch Tagging) happens at physical switch. VGT (Virtual Guest Tagging) happens inside the VM OS.",
+            opts: ["VLAN Tagging modes", "Routing protocols", "Storage types", "Power management modes"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "What is Promiscuous Mode in a vSwitch?",
+            a: "A security setting that allows a virtual NIC to see all traffic traversing the switch, not just traffic meant for its MAC address. Used for packet sniffing or nested virtualization.",
+            opts: ["Allows seeing all traffic on switch", "Blocks all traffic", "Accelerates file transfers", "Disables the firewall"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "What is vMotion?",
+            a: "The ability to migrate a running Virtual Machine from one physical host to another with zero downtime.",
+            opts: ["Live migration of VM between hosts", "Moving storage between drives", "Rebooting a VM", "Backing up a VM"]
+        },
+        {
+            cat: "Virtualization & VMware",
+            q: "What is VXLAN?",
+            a: "A network virtualization technology that encapsulates Layer 2 Ethernet frames within Layer 3 UDP packets, allowing L2 segments to span across L3 networks (basis of NSX).",
+            opts: ["Encapsulating L2 inside L3", "A new type of physical cable", "A routing table", "Wireless encryption"]
+        },
+
+        // --- HIGH PRIORITY ---
         { 
             cat: "High Priority", 
             q: "What is 127.0.0.1?", 
@@ -301,16 +380,15 @@
             opts: ["VLAN = L2, Subnet = L3", "VLAN = L3, Subnet = L2", "Both are L2", "Both are L3"]
         },
 
-        // PORTS & PROTOCOLS
+        // --- PORTS & PROTOCOLS ---
         { cat: "Ports", q: "Port 22 is used for?", a: "SSH (Secure Shell) - Secure remote login.", opts: ["SSH", "Telnet", "FTP", "HTTP"] },
         { cat: "Ports", q: "Port 23 is used for?", a: "Telnet - Unencrypted remote login.", opts: ["Telnet", "SSH", "SMTP", "DNS"] },
         { cat: "Ports", q: "Port 53 is used for?", a: "DNS (Domain Name System).", opts: ["DNS", "DHCP", "HTTP", "SNMP"] },
         { cat: "Ports", q: "Port 80 is used for?", a: "HTTP - Unsecured Web Traffic.", opts: ["HTTP", "HTTPS", "FTP", "POP3"] },
         { cat: "Ports", q: "Port 443 is used for?", a: "HTTPS - Secured Web Traffic.", opts: ["HTTPS", "HTTP", "RDP", "IMAP"] },
         { cat: "Ports", q: "Port 3389 is used for?", a: "RDP (Remote Desktop Protocol).", opts: ["RDP", "SSH", "LDAP", "SQL"] },
-        { cat: "Ports", q: "Port 21 is used for?", a: "FTP (File Transfer Protocol) Control.", opts: ["FTP", "SSH", "TFTP", "SMPT"] },
 
-        // BASICS
+        // --- BASICS ---
         { 
             cat: "Networking Basics", 
             q: "What is a '3-Way Handshake'?", 
@@ -319,21 +397,9 @@
         },
         { 
             cat: "Networking Basics", 
-            q: "Which protocol is Connectionless (Fire and Forget)?", 
-            a: "UDP (User Datagram Protocol).", 
+            q: "Which protocol is Connectionless?", 
+            a: "UDP (User Datagram Protocol). Fast but unreliable.", 
             opts: ["UDP", "TCP", "HTTP", "FTP"]
-        },
-        { 
-            cat: "Networking Basics", 
-            q: "Which DNS record points a Hostname to an IPv4 address?", 
-            a: "A Record.", 
-            opts: ["A Record", "AAAA Record", "CNAME", "MX Record"]
-        },
-        { 
-            cat: "Networking Basics", 
-            q: "Which DNS record handles Email traffic?", 
-            a: "MX (Mail Exchange) Record.", 
-            opts: ["MX Record", "A Record", "TXT Record", "PTR Record"]
         },
         { 
             cat: "Networking Basics", 
@@ -342,13 +408,7 @@
             opts: ["Hub=Broadcast, Switch=Unicast", "Hub=Unicast, Switch=Broadcast", "Hub is L3, Switch is L2", "No difference"]
         },
 
-        // ADVANCED / OTHER
-        { 
-            cat: "Advanced", 
-            q: "What is the command to view IP config in Linux?", 
-            a: "ifconfig (or 'ip addr').", 
-            opts: ["ifconfig", "ipconfig", "netsh", "ls -ip"]
-        },
+        // --- ADVANCED ---
         { 
             cat: "Advanced", 
             q: "What is a /30 subnet typically used for?", 
@@ -360,18 +420,6 @@
             q: "How does a Router determine the path?", 
             a: "Routing Table (Longest Prefix Match).", 
             opts: ["Routing Table", "MAC Table", "ARP Cache", "DNS Query"]
-        },
-        { 
-            cat: "Advanced", 
-            q: "What allows private IPs to access the internet?", 
-            a: "NAT (Network Address Translation).", 
-            opts: ["NAT", "DHCP", "DNS", "BGP"]
-        },
-        {
-            cat: "Advanced",
-            q: "Which WiFi standard operates on 2.4GHz and 5GHz?",
-            a: "802.11n (WiFi 4) or 802.11ax (WiFi 6).",
-            opts: ["802.11n", "802.11b", "802.11a", "Bluetooth"]
         },
         {
             cat: "Advanced",
@@ -399,7 +447,6 @@
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
         
         document.getElementById(tabId).classList.add('active');
-        // Find button that calls this function (rough way)
         const btns = document.querySelectorAll('.tab-btn');
         if(tabId === 'study') btns[0].classList.add('active');
         if(tabId === 'quiz') btns[1].classList.add('active');
@@ -411,7 +458,7 @@
         const list = document.getElementById('studyList');
         list.innerHTML = '';
         
-        const filtered = filter === 'all' ? db : db.filter(item => item.cat === filter || (filter === 'High Priority' && item.cat === 'High Priority')); // Simple filter
+        const filtered = filter === 'all' ? db : db.filter(item => item.cat === filter);
 
         if(filtered.length === 0) {
             list.innerHTML = '<p style="text-align:center; color:#888;">No questions in this category.</p>'; 
@@ -421,10 +468,15 @@
         filtered.forEach(item => {
             const card = document.createElement('div');
             card.className = 'qa-card';
+            card.setAttribute('data-cat', item.cat); // For CSS targeting
             card.onclick = () => card.classList.toggle('open');
+            
+            // Special styling for VMware tag
+            const tagClass = item.cat === "Virtualization & VMware" ? "tag vmware" : "tag";
+
             card.innerHTML = `
                 <div class="qa-q">
-                    <span><span class="tag">${item.cat}</span> ${item.q}</span>
+                    <span><span class="${tagClass}">${item.cat}</span> ${item.q}</span>
                     <span style="color:var(--primary)">+</span>
                 </div>
                 <div class="qa-a">${item.a}</div>
@@ -438,18 +490,18 @@
     let qIndex = 0;
     let score = 0;
     let canClick = true;
+    const QUIZ_LENGTH = 15;
 
     function startQuiz() {
-        // Reset state
         qIndex = 0;
         score = 0;
         document.getElementById('quizStart').style.display = 'none';
         document.getElementById('quizResults').style.display = 'none';
         document.getElementById('quizGame').style.display = 'block';
 
-        // Shuffle DB and take top 10
+        // Shuffle DB and take questions
         const shuffled = [...db].sort(() => 0.5 - Math.random());
-        currentQuiz = shuffled.slice(0, 10); // Take 10 questions
+        currentQuiz = shuffled.slice(0, QUIZ_LENGTH); 
 
         loadQuestion();
     }
@@ -459,30 +511,24 @@
         const q = currentQuiz[qIndex];
         
         // UI Updates
-        document.getElementById('qCategory').textContent = q.cat;
+        const catEl = document.getElementById('qCategory');
+        catEl.textContent = q.cat;
+        catEl.className = q.cat === "Virtualization & VMware" ? "tag vmware" : "tag";
+
         document.getElementById('qText').textContent = q.q;
         document.getElementById('feedback').textContent = '';
         document.getElementById('nextBtn').style.display = 'none';
         
         // Progress Bar
-        const pct = ((qIndex) / 10) * 100;
+        const pct = ((qIndex) / QUIZ_LENGTH) * 100;
         document.getElementById('progressFill').style.width = `${pct}%`;
 
         // Generate Options
         const grid = document.getElementById('optionsGrid');
         grid.innerHTML = '';
 
-        // Randomize options (Correct answer is always index 0 of q.opts in our data structure logic below)
-        // Wait, in my data structure `opts` has the correct answer? 
-        // Let's ensure the Data structure is consistent.
-        // I put the correct answer as the first item in `opts` in the DB manually? 
-        // Yes, looking at the DB above, index 0 is always the correct one.
-        // We need to shuffle them for display but keep track of the correct one.
-        
         let answers = q.opts.map(opt => ({ text: opt, isCorrect: opt === q.opts[0] }));
-        
-        // Shuffle answers
-        answers.sort(() => 0.5 - Math.random());
+        answers.sort(() => 0.5 - Math.random()); // Randomize option order
 
         answers.forEach(ans => {
             const btn = document.createElement('div');
@@ -502,19 +548,15 @@
 
         if(isCorrect) {
             btn.classList.add('correct');
-            document.getElementById('feedback').textContent = "Correct! " + currentQuiz[qIndex].a; // Show explanation
-            document.getElementById('feedback').style.color = "var(--success)";
+            document.getElementById('feedback').innerHTML = `<span style="color:var(--success)">Correct!</span> ${currentQuiz[qIndex].a}`;
             score++;
         } else {
             btn.classList.add('wrong');
-            // Highlight correct one
-            // We need to find the button with the text equal to db[index].opts[0]
-            // But we shuffled. We can pass isCorrect flag.
+            // Find correct one
             allBtns.forEach(b => {
                  if (b.textContent === currentQuiz[qIndex].opts[0]) b.classList.add('correct');
             });
-            document.getElementById('feedback').textContent = "Wrong! Answer: " + currentQuiz[qIndex].a;
-            document.getElementById('feedback').style.color = "var(--error)";
+            document.getElementById('feedback').innerHTML = `<span style="color:var(--error)">Wrong!</span> ${currentQuiz[qIndex].a}`;
         }
 
         document.getElementById('nextBtn').style.display = 'inline-block';
@@ -532,7 +574,7 @@
     function showResults() {
         document.getElementById('quizGame').style.display = 'none';
         document.getElementById('quizResults').style.display = 'block';
-        document.getElementById('finalScore').textContent = `${score}/10`;
+        document.getElementById('finalScore').textContent = `${score}/${QUIZ_LENGTH}`;
     }
 
     // 4. Leaderboard Logic (Local Storage)
@@ -540,19 +582,13 @@
         const name = document.getElementById('playerName').value.trim() || "Anonymous";
         const date = new Date().toLocaleDateString();
         
-        const newEntry = { name, score, date };
+        const newEntry = { name, score, date, max: QUIZ_LENGTH };
         
-        // Get existing
-        let lb = JSON.parse(localStorage.getItem('net_leaderboard')) || [];
+        let lb = JSON.parse(localStorage.getItem('net_vmware_leaderboard')) || [];
         lb.push(newEntry);
-        
-        // Sort by score (desc)
         lb.sort((a,b) => b.score - a.score);
+        localStorage.setItem('net_vmware_leaderboard', JSON.stringify(lb));
         
-        // Save
-        localStorage.setItem('net_leaderboard', JSON.stringify(lb));
-        
-        // Switch view
         switchTab('leaderboard');
         loadLeaderboard();
     }
@@ -561,7 +597,7 @@
         const tbody = document.getElementById('leaderboardBody');
         tbody.innerHTML = '';
         
-        const lb = JSON.parse(localStorage.getItem('net_leaderboard')) || [];
+        const lb = JSON.parse(localStorage.getItem('net_vmware_leaderboard')) || [];
         
         if(lb.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">No scores yet. Be the first!</td></tr>';
@@ -575,10 +611,12 @@
             if(index === 1) rankClass = 'rank-2';
             if(index === 2) rankClass = 'rank-3';
 
+            const maxScore = entry.max || 15; // Backwards compatibility if max changes
+
             tr.innerHTML = `
                 <td class="${rankClass}">#${index + 1}</td>
                 <td style="font-weight:600">${entry.name}</td>
-                <td>${entry.score}/10</td>
+                <td>${entry.score}/${maxScore}</td>
                 <td style="color:#64748b; font-size:0.9em">${entry.date}</td>
             `;
             tbody.appendChild(tr);
