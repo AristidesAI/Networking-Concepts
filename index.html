@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Interview Master (Locked)</title>
+    <title>Network & Cloud Master (Locked)</title>
     <style>
         :root {
             --primary: #4f46e5; /* Indigo */
@@ -18,7 +18,8 @@
             
             /* Tag Colors */
             --vmware: #f97316; /* Orange */
-            --cloud: #0ea5e9;  /* Sky Blue */
+            --cloud: #0ea5e9;  /* Sky Blue (Technical Migration) */
+            --strat: #8b5cf6;  /* Violet (Cloud Frameworks/Strategy) */
         }
 
         body {
@@ -26,7 +27,7 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 0; /* Reset padding for full screen login */
+            padding: 0;
             line-height: 1.6;
             min-height: 100vh;
         }
@@ -79,9 +80,9 @@
         .login-btn:hover { background: var(--primary-dark); }
         .error-msg { color: var(--error); font-size: 0.9rem; margin-top: 10px; display: none; }
 
-        /* --- MAIN APP CONTAINER (Hidden initially) --- */
+        /* --- MAIN APP CONTAINER --- */
         #appContent {
-            display: none; /* Hidden by default */
+            display: none;
             padding: 20px;
         }
 
@@ -90,7 +91,6 @@
             margin: 0 auto;
         }
 
-        /* Header */
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -155,9 +155,10 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        /* Custom Border Colors based on Category */
+        /* Category Border Colors */
         .qa-card[data-cat="Virtualization & VMware"] { border-left-color: var(--vmware); }
         .qa-card[data-cat="Cloud Migration"] { border-left-color: var(--cloud); }
+        .qa-card[data-cat="Cloud Frameworks"] { border-left-color: var(--strat); }
 
         .qa-card:hover { transform: translateX(5px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .qa-q { font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; }
@@ -178,6 +179,7 @@
         
         .tag.vmware { background: #ffedd5; color: #c2410c; } /* Orange */
         .tag.cloud { background: #e0f2fe; color: #0284c7; } /* Blue */
+        .tag.strat { background: #ede9fe; color: #6d28d9; } /* Violet */
 
         /* Quiz Styles */
         .quiz-container {
@@ -246,9 +248,9 @@
         }
         .leaderboard-table th, .leaderboard-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); }
         .leaderboard-table th { background: #f8fafc; font-weight: 600; }
-        .rank-1 { color: #ca8a04; font-weight: bold; } /* Gold */
-        .rank-2 { color: #94a3b8; font-weight: bold; } /* Silver */
-        .rank-3 { color: #b45309; font-weight: bold; } /* Bronze */
+        .rank-1 { color: #ca8a04; font-weight: bold; }
+        .rank-2 { color: #94a3b8; font-weight: bold; }
+        .rank-3 { color: #b45309; font-weight: bold; }
 
         /* Results Screen */
         .results-screen { text-align: center; display: none; }
@@ -284,8 +286,8 @@
 <div id="appContent">
     <div class="container">
         <header>
-            <h1>Network Interview Master</h1>
-            <p class="subtitle">Virtualization • Cloud Migration • Networking</p>
+            <h1>Network & Cloud Master</h1>
+            <p class="subtitle">Frameworks • Strategies • Migration • Networking</p>
         </header>
 
         <div class="tabs">
@@ -298,8 +300,9 @@
             <div class="study-controls">
                 <select id="categoryFilter" style="padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size:1rem;">
                     <option value="all">All Concepts</option>
-                    <option value="Cloud Migration">☁️ Cloud Migration</option>
-                    <option value="Virtualization & VMware">🖥️ Virtualization & VMware</option>
+                    <option value="Cloud Frameworks">🟣 Cloud Frameworks (New)</option>
+                    <option value="Cloud Migration">🔵 Cloud Technical</option>
+                    <option value="Virtualization & VMware">🟠 Virtualization & VMware</option>
                     <option value="High Priority">🔥 High Priority</option>
                     <option value="Ports">🔌 Ports & Protocols</option>
                     <option value="Networking Basics">📚 Basics</option>
@@ -313,7 +316,7 @@
         <div id="quiz" class="view-section">
             <div id="quizStart" style="text-align: center;">
                 <h2>Test Your Knowledge</h2>
-                <p>15 Random Questions drawn from Cloud, VMware, and Networking.</p>
+                <p>15 Random Questions drawn from the full database.</p>
                 <button class="btn-next" style="display: inline-block;" onclick="startQuiz()">Start Quiz</button>
             </div>
 
@@ -368,200 +371,120 @@
         const error = document.getElementById('loginError');
         
         if(input === "hello") {
-            // Success: Hide login, show app
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('appContent').style.display = 'block';
         } else {
-            // Fail
             error.style.display = 'block';
             document.getElementById('passwordInput').value = '';
         }
     }
-    
-    // Enable "Enter" key for password
     document.getElementById("passwordInput").addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            checkPassword();
-        }
+        if (event.key === "Enter") checkPassword();
     });
 
     // --- DATA ---
     const db = [
-        // --- CLOUD MIGRATION ---
+        // --- NEW SECTION: CLOUD FRAMEWORKS & STRATEGY ---
         {
-            cat: "Cloud Migration",
-            q: "Which phase of the migration lifecycle involves the '7 Rs' strategy assignment?",
-            a: "Phase 1: Assess. This is where you discover inventory, analyze TCO, and decide if apps should be Rehosted, Refactored, etc.",
-            opts: ["Phase 1: Assess", "Phase 2: Mobilize", "Phase 3: Migrate", "Phase 4: Optimize"]
+            cat: "Cloud Frameworks",
+            q: "What are the 3 Phases of the Cloud Migration Lifecycle?",
+            a: "1. <strong>Assess:</strong> Build business case & evaluate readiness.<br>2. <strong>Mobilise:</strong> Build landing zone & fix gaps.<br>3. <strong>Migrate & Modernise:</strong> Move workloads in waves.",
+            opts: ["Assess, Mobilise, Migrate", "Plan, Do, Check", "Discover, Design, Deploy", "Copy, Paste, Delete"]
         },
         {
-            cat: "Cloud Migration",
-            q: "What is the primary activity of Phase 2: Mobilize?",
-            a: "Building the 'Landing Zone' (VPCs, IAM, Governance) and performing a Pilot Migration to validate processes.",
-            opts: ["Building Landing Zone & Pilot", "Moving all apps at once", "Decommissioning source hardware", "Negotiating TCO"]
+            cat: "Cloud Frameworks",
+            q: "What is the 'Rehost' strategy (7 Rs)?",
+            a: "<strong>Lift and shift:</strong> Moving applications without changes. Used for fast migration (e.g., data centre lease expiry) or when no code changes are desired.",
+            opts: ["Rehost", "Refactor", "Repurchase", "Retire"] // Quiz Q1 context
         },
         {
-            cat: "Cloud Migration",
-            q: "What is the purpose of 'Wave Planning' in Phase 3?",
-            a: "Grouping applications into 'waves' to migrate together based on their dependencies to ensure smooth transitions.",
-            opts: ["Grouping apps by dependency", "Analyzing TCO", "Installing Replication Agents", "Archiving old backups"]
+            cat: "Cloud Frameworks",
+            q: "What is the 'Replatform' strategy (7 Rs)?",
+            a: "<strong>Lift, tinker, and shift:</strong> Optimising the OS or DB (e.g., SQL to Amazon RDS) without changing core code. Reduces licensing/ops costs.",
+            opts: ["Replatform", "Rehost", "Refactor", "Repurchase"] // Quiz Q3 context
         },
         {
-            cat: "Cloud Migration",
-            q: "Which TCP port is typically used for Migration Data Replication traffic?",
-            a: "TCP Port 1500 is commonly used for the data replication stream (while 443 is used for control).",
-            opts: ["TCP 1500", "TCP 443", "TCP 80", "UDP 53"]
+            cat: "Cloud Frameworks",
+            q: "What is the 'Refactor' strategy (7 Rs)?",
+            a: "<strong>Re-architect:</strong> Modifying architecture to use cloud-native features (serverless, containers). High effort, high agility/scalability reward.",
+            opts: ["Refactor", "Rehost", "Replatform", "Retain"]
         },
         {
-            cat: "Cloud Migration",
-            q: "What happens during the 'Cutover' step?",
-            a: "Shutdown source VM, perform final data sync (replication), and launch the production instance in the cloud.",
-            opts: ["Shutdown Source -> Final Sync -> Launch", "Install Agents -> Replicate", "Create Landing Zone", "Delete source backups"]
+            cat: "Cloud Frameworks",
+            q: "What is the 'Repurchase' strategy (7 Rs)?",
+            a: "<strong>Drop and shop:</strong> Moving from a traditional license to a SaaS product (e.g., Switching from on-prem CRM to Salesforce).",
+            opts: ["Repurchase", "Retire", "Relocate", "Rehost"]
         },
         {
-            cat: "Cloud Migration",
-            q: "What does 'Finalize Cutover' do in the migration console?",
-            a: "It stops the replication billing, discards staging data, and terminates the replication servers.",
-            opts: ["Stops billing & cleans staging", "Deletes the Production VM", "Reboots the Source VM", "Installs AWS Drivers"]
+            cat: "Cloud Frameworks",
+            q: "What is the 'Retire' strategy (7 Rs)?",
+            a: "Decommissioning apps with no business value or usage <5% ('Zombie Apps').",
+            opts: ["Retire", "Retain", "Replatform", "Relocate"] // Quiz Q2 context
         },
         {
-            cat: "Cloud Migration",
-            q: "What is the role of a 'Landing Zone'?",
-            a: "It is the secure target environment (VPC, Subnets, Security Groups, IAM) prepared to receive the migrated workloads.",
-            opts: ["Target Cloud Environment Setup", "The source staging area", "The physical loading dock", "A temporary backup location"]
+            cat: "Cloud Frameworks",
+            q: "What is 'FinOps'?",
+            a: "Financial Operations. The practice where Engineering and Finance collaborate to balance the 'Iron Triangle' of Speed, Cost, and Quality. Engineers take ownership of costs.",
+            opts: ["Engineering takes ownership of cost", "Finance controls everything", "Paying the cheapest price only", "Buying servers"] // Quiz Q4 context
         },
         {
-            cat: "Cloud Migration",
-            q: "How does 'Agent-based' replication typically work?",
-            a: "An agent installed on the OS copies block-level data continuously and asynchronously to the cloud staging area.",
-            opts: ["Agent copies block-level data", "Agent copies files only at night", "Agent takes a one-time snapshot", "Agent moves the physical hard drive"]
+            cat: "Cloud Frameworks",
+            q: "What is a 'Database Wrapper Service'?",
+            a: "A modernization pattern where you create a lightweight service layer to mirror DB functionality. It acts as a gatekeeper to prevent uncontrolled access to a monolith.",
+            opts: ["Database Wrapper Service", "Read Replica", "Event Sourcing", "Data Lake"] // Quiz Q5 context
         },
         {
-            cat: "Cloud Migration",
-            q: "Why is bandwidth throttling used during migration?",
-            a: "To prevent the replication traffic from saturating the corporate internet link, which could impact regular business operations.",
-            opts: ["Prevent internet link saturation", "Speed up the migration", "Encrypt the data", "Compress the data"]
+            cat: "Cloud Frameworks",
+            q: "What is the 'Strangler Fig Pattern'?",
+            a: "Incrementally rewriting and replacing system functionality piece by piece until the legacy system can be decommissioned.",
+            opts: ["Incremental replacement of legacy", "Deleting the old system at once", "Blocking all traffic", "Wrapping the database"]
         },
         {
-            cat: "Cloud Migration",
-            q: "What action should be taken regarding 'Post-Launch' optimization?",
-            a: "Modernize drivers, convert licenses (e.g., BYOL to AWS), and resize the instance based on actual cloud performance metrics.",
-            opts: ["Update drivers & Right-size instance", "Re-install the OS", "Delete all data", "Keep replication running forever"]
+            cat: "Cloud Frameworks",
+            q: "In which migration phase do you build the 'Landing Zone'?",
+            a: "<strong>Phase 2: Mobilise.</strong> This is where security models, operating models, and foundational networking are established.",
+            opts: ["Mobilise", "Assess", "Migrate", "Optimise"] // Quiz Q6 context
         },
 
+        // --- CLOUD MIGRATION (TECHNICAL) ---
+        { cat: "Cloud Migration", q: "What is the '7 Rs' assignment phase?", a: "Phase 1: Assess. Discover inventory and assign strategy (Rehost, etc.).", opts: ["Phase 1: Assess", "Phase 2: Mobilise", "Phase 3: Migrate", "Phase 4: Optimize"] },
+        { cat: "Cloud Migration", q: "TCP Port for Replication Data?", a: "TCP Port 1500 (Data) and 443 (Control).", opts: ["TCP 1500", "TCP 443", "TCP 80", "UDP 53"] },
+        { cat: "Cloud Migration", q: "What is a 'Cutover'?", a: "Shutdown source, final sync, launch cloud instance.", opts: ["Shutdown Source -> Final Sync -> Launch", "Install Agents", "Create Landing Zone", "Delete backups"] },
+        { cat: "Cloud Migration", q: "What is 'Wave Planning'?", a: "Grouping apps by dependency to migrate together.", opts: ["Grouping apps by dependency", "Analyzing TCO", "Installing Agents", "Archiving backups"] },
+        
         // --- VIRTUALIZATION & VMWARE ---
-        {
-            cat: "Virtualization & VMware",
-            q: "What is a VRF (Virtual Routing and Forwarding)?",
-            a: "It allows a single physical router to host multiple, isolated routing tables. It is like a 'VLAN for Layer 3'.",
-            opts: ["Virtual Routing Table (L3 Segmentation)", "Virtual Switch (L2 Segmentation)", "A type of Firewall Rule", "VMware Recovery File"]
-        },
-        {
-            cat: "Virtualization & VMware",
-            q: "What is a vSwitch (Standard Switch)?",
-            a: "A software-based switch residing on a single ESXi host. It connects VMs to physical NICs (uplinks).",
-            opts: ["A software switch on one host", "A physical Cisco switch", "A switch spanning multiple hosts", "A routing protocol"]
-        },
-        {
-            cat: "Virtualization & VMware",
-            q: "What is a vDS (Distributed Switch)?",
-            a: "A virtual switch that spans multiple ESXi hosts, managed centrally from vCenter.",
-            opts: ["A switch spanning multiple hosts", "A switch on a single host", "A physical router", "A storage protocol"]
-        },
-        {
-            cat: "Virtualization & VMware",
-            q: "What is a Port Group?",
-            a: "A template of configuration policies (VLAN IDs, traffic shaping) applied to a group of virtual ports.",
-            opts: ["Configuration template (VLANs/Policies)", "A group of physical cables", "A collection of Hard Drives", "A type of CPU core"]
-        },
-        {
-            cat: "Virtualization & VMware",
-            q: "What is a VMkernel Port (vmk)?",
-            a: "A specialized virtual interface used by the ESXi host for system traffic like vMotion, iSCSI, and Management.",
-            opts: ["Interface for Host Traffic (vMotion/iSCSI)", "Interface for VM data traffic", "A physical USB port", "The BIOS of the VM"]
-        },
-        {
-            cat: "Virtualization & VMware",
-            q: "What is vMotion?",
-            a: "The ability to migrate a running Virtual Machine from one physical host to another with zero downtime.",
-            opts: ["Live migration of VM between hosts", "Moving storage between drives", "Rebooting a VM", "Backing up a VM"]
-        },
-        {
-            cat: "Virtualization & VMware",
-            q: "What is VXLAN?",
-            a: "Encapsulates Layer 2 Ethernet frames within Layer 3 UDP packets, allowing L2 segments to span across L3 networks.",
-            opts: ["Encapsulating L2 inside L3", "A new type of physical cable", "A routing table", "Wireless encryption"]
-        },
+        { cat: "Virtualization & VMware", q: "What is a VRF?", a: "Virtual Routing and Forwarding. Multiple routing tables on one router (L3).", opts: ["Virtual Routing Table", "Virtual Switch", "Firewall Rule", "VMware File"] },
+        { cat: "Virtualization & VMware", q: "What is a vSwitch?", a: "Software switch on a single ESXi host connecting VMs to physical NICs.", opts: ["Switch on one host", "Physical Cisco switch", "Distributed switch", "Router"] },
+        { cat: "Virtualization & VMware", q: "What is a vDS?", a: "Distributed Switch. Spans multiple hosts, managed by vCenter.", opts: ["Switch spanning multiple hosts", "Single host switch", "Physical router", "Storage"] },
+        { cat: "Virtualization & VMware", q: "What is a Port Group?", a: "Configuration template (VLANs, policies) applied to virtual ports.", opts: ["Config template (VLANs)", "Physical cables", "Hard Drives", "CPU core"] },
+        { cat: "Virtualization & VMware", q: "What is vMotion?", a: "Live migration of a running VM between hosts with zero downtime.", opts: ["Live migration", "Moving storage", "Rebooting VM", "Backing up VM"] },
 
         // --- HIGH PRIORITY ---
-        { 
-            cat: "High Priority", 
-            q: "What is 127.0.0.1?", 
-            a: "Loopback Address (Localhost). Used to test the network card.", 
-            opts: ["Loopback Address", "Default Gateway", "Broadcast Address", "APIPA Address"]
-        },
-        { 
-            cat: "High Priority", 
-            q: "What is 169.254.x.x?", 
-            a: "APIPA (Automatic Private IP). Assigned when DHCP fails.", 
-            opts: ["APIPA (DHCP Fail)", "Public IP", "Class A Private IP", "Multicast Address"]
-        },
-        { 
-            cat: "High Priority", 
-            q: "What is the broadcast address for 192.168.1.0/24?", 
-            a: "192.168.1.255. It targets all devices on that subnet.", 
-            opts: ["192.168.1.255", "192.168.1.1", "192.168.1.0", "255.255.255.0"]
-        },
+        { cat: "High Priority", q: "What is 127.0.0.1?", a: "Loopback (Localhost).", opts: ["Loopback Address", "Gateway", "Broadcast", "APIPA"] },
+        { cat: "High Priority", q: "What is 169.254.x.x?", a: "APIPA (DHCP Fail).", opts: ["APIPA", "Public IP", "Class A", "Multicast"] },
+        { cat: "High Priority", q: "Broadcast for 192.168.1.0/24?", a: "192.168.1.255.", opts: ["192.168.1.255", "192.168.1.1", "192.168.1.0", "255.255.255.0"] },
 
-        // --- PORTS & PROTOCOLS ---
-        { cat: "Ports", q: "Port 22 is used for?", a: "SSH (Secure Shell) - Secure remote login.", opts: ["SSH", "Telnet", "FTP", "HTTP"] },
-        { cat: "Ports", q: "Port 53 is used for?", a: "DNS (Domain Name System).", opts: ["DNS", "DHCP", "HTTP", "SNMP"] },
-        { cat: "Ports", q: "Port 443 is used for?", a: "HTTPS - Secured Web Traffic.", opts: ["HTTPS", "HTTP", "RDP", "IMAP"] },
-        { cat: "Ports", q: "Port 3389 is used for?", a: "RDP (Remote Desktop Protocol).", opts: ["RDP", "SSH", "LDAP", "SQL"] },
+        // --- PORTS ---
+        { cat: "Ports", q: "Port 22?", a: "SSH.", opts: ["SSH", "Telnet", "FTP", "HTTP"] },
+        { cat: "Ports", q: "Port 53?", a: "DNS.", opts: ["DNS", "DHCP", "HTTP", "SNMP"] },
+        { cat: "Ports", q: "Port 443?", a: "HTTPS.", opts: ["HTTPS", "HTTP", "RDP", "IMAP"] },
+        { cat: "Ports", q: "Port 3389?", a: "RDP.", opts: ["RDP", "SSH", "LDAP", "SQL"] },
 
         // --- BASICS ---
-        { 
-            cat: "Networking Basics", 
-            q: "What is a '3-Way Handshake'?", 
-            a: "SYN, SYN-ACK, ACK. The process TCP uses to establish a connection.", 
-            opts: ["SYN, SYN-ACK, ACK", "SYN, ACK, FIN", "Connect, Accept, Send", "Hello, Hi, Ack"]
-        },
-        { 
-            cat: "Networking Basics", 
-            q: "Which protocol is Connectionless?", 
-            a: "UDP (User Datagram Protocol). Fast but unreliable.", 
-            opts: ["UDP", "TCP", "HTTP", "FTP"]
-        },
+        { cat: "Networking Basics", q: "3-Way Handshake?", a: "SYN, SYN-ACK, ACK.", opts: ["SYN, SYN-ACK, ACK", "SYN, ACK, FIN", "Connect, Accept, Send", "Hello, Hi, Ack"] },
+        { cat: "Networking Basics", q: "Connectionless Protocol?", a: "UDP.", opts: ["UDP", "TCP", "HTTP", "FTP"] },
 
         // --- ADVANCED ---
-        { 
-            cat: "Advanced", 
-            q: "What is a /30 subnet typically used for?", 
-            a: "Point-to-Point links (only 2 usable hosts).", 
-            opts: ["Point-to-Point links", "Large Offices", "Home WiFi", "The Internet"]
-        },
-        { 
-            cat: "Advanced", 
-            q: "How does a Router determine the path?", 
-            a: "Routing Table (Longest Prefix Match).", 
-            opts: ["Routing Table", "MAC Table", "ARP Cache", "DNS Query"]
-        },
-        {
-            cat: "Advanced",
-            q: "What is a 'Trunk' port?",
-            a: "A port that carries traffic for multiple VLANs using tagging (802.1q).",
-            opts: ["Carries multiple VLANs", "Connects to ISP", "Only for Voice traffic", "Power over Ethernet"]
-        }
+        { cat: "Advanced", q: "/30 subnet use?", a: "Point-to-Point links (2 hosts).", opts: ["Point-to-Point", "Office LAN", "WiFi", "Internet"] },
+        { cat: "Advanced", q: "Router path decision?", a: "Routing Table (Longest Prefix Match).", opts: ["Routing Table", "MAC Table", "ARP Cache", "DNS"] },
+        { cat: "Advanced", q: "What is a Trunk?", a: "Carries multiple VLANs (tagged).", opts: ["Carries multiple VLANs", "ISP Connection", "Voice Only", "PoE"] }
     ];
 
     // --- APP LOGIC ---
-
-    // 1. Initialization
     document.addEventListener('DOMContentLoaded', () => {
         renderStudyList('all');
         loadLeaderboard();
-
-        // Filter Listener
+        
         document.getElementById('categoryFilter').addEventListener('change', (e) => {
             renderStudyList(e.target.value);
         });
@@ -578,7 +501,7 @@
         if(tabId === 'leaderboard') btns[2].classList.add('active');
     }
 
-    // 2. Study Mode Logic
+    // STUDY LIST
     function renderStudyList(filter) {
         const list = document.getElementById('studyList');
         list.innerHTML = '';
@@ -593,13 +516,14 @@
         filtered.forEach(item => {
             const card = document.createElement('div');
             card.className = 'qa-card';
-            card.setAttribute('data-cat', item.cat); // For CSS targeting
+            card.setAttribute('data-cat', item.cat);
             card.onclick = () => card.classList.toggle('open');
             
             // Dynamic Tag Coloring
             let tagClass = "tag";
             if(item.cat === "Virtualization & VMware") tagClass = "tag vmware";
             if(item.cat === "Cloud Migration") tagClass = "tag cloud";
+            if(item.cat === "Cloud Frameworks") tagClass = "tag strat";
 
             card.innerHTML = `
                 <div class="qa-q">
@@ -612,7 +536,7 @@
         });
     }
 
-    // 3. Quiz Mode Logic
+    // QUIZ LOGIC
     let currentQuiz = [];
     let qIndex = 0;
     let score = 0;
@@ -626,7 +550,6 @@
         document.getElementById('quizResults').style.display = 'none';
         document.getElementById('quizGame').style.display = 'block';
 
-        // Shuffle DB and take questions
         const shuffled = [...db].sort(() => 0.5 - Math.random());
         currentQuiz = shuffled.slice(0, QUIZ_LENGTH); 
 
@@ -637,29 +560,26 @@
         canClick = true;
         const q = currentQuiz[qIndex];
         
-        // UI Updates
         const catEl = document.getElementById('qCategory');
         catEl.textContent = q.cat;
         
-        // Reset class
         catEl.className = "tag";
         if(q.cat === "Virtualization & VMware") catEl.className = "tag vmware";
         if(q.cat === "Cloud Migration") catEl.className = "tag cloud";
+        if(q.cat === "Cloud Frameworks") catEl.className = "tag strat";
 
-        document.getElementById('qText').textContent = q.q;
+        document.getElementById('qText').innerHTML = q.q; // Changed to innerHTML for formatting
         document.getElementById('feedback').textContent = '';
         document.getElementById('nextBtn').style.display = 'none';
         
-        // Progress Bar
         const pct = ((qIndex) / QUIZ_LENGTH) * 100;
         document.getElementById('progressFill').style.width = `${pct}%`;
 
-        // Generate Options
         const grid = document.getElementById('optionsGrid');
         grid.innerHTML = '';
 
         let answers = q.opts.map(opt => ({ text: opt, isCorrect: opt === q.opts[0] }));
-        answers.sort(() => 0.5 - Math.random()); // Randomize option order
+        answers.sort(() => 0.5 - Math.random());
 
         answers.forEach(ans => {
             const btn = document.createElement('div');
@@ -683,7 +603,6 @@
             score++;
         } else {
             btn.classList.add('wrong');
-            // Find correct one
             allBtns.forEach(b => {
                  if (b.textContent === currentQuiz[qIndex].opts[0]) b.classList.add('correct');
             });
@@ -708,17 +627,17 @@
         document.getElementById('finalScore').textContent = `${score}/${QUIZ_LENGTH}`;
     }
 
-    // 4. Leaderboard Logic (Local Storage)
+    // LEADERBOARD LOGIC
     function saveScore() {
         const name = document.getElementById('playerName').value.trim() || "Anonymous";
         const date = new Date().toLocaleDateString();
         
         const newEntry = { name, score, date, max: QUIZ_LENGTH };
         
-        let lb = JSON.parse(localStorage.getItem('net_migration_leaderboard')) || [];
+        let lb = JSON.parse(localStorage.getItem('net_strat_leaderboard')) || [];
         lb.push(newEntry);
         lb.sort((a,b) => b.score - a.score);
-        localStorage.setItem('net_migration_leaderboard', JSON.stringify(lb));
+        localStorage.setItem('net_strat_leaderboard', JSON.stringify(lb));
         
         switchTab('leaderboard');
         loadLeaderboard();
@@ -728,7 +647,7 @@
         const tbody = document.getElementById('leaderboardBody');
         tbody.innerHTML = '';
         
-        const lb = JSON.parse(localStorage.getItem('net_migration_leaderboard')) || [];
+        const lb = JSON.parse(localStorage.getItem('net_strat_leaderboard')) || [];
         
         if(lb.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">No scores yet. Be the first!</td></tr>';
@@ -755,6 +674,5 @@
     }
 
 </script>
-
 </body>
 </html>
